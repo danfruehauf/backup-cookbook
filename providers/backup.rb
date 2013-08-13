@@ -25,15 +25,15 @@ action :add do
   # Parameters
   backup_name     = new_resource.backup_name
   params          = new_resource.params
-  cookbook        = new_resource.cookbook       || "backup"
-  template_model  = new_resource.template_model || "default"
+  cookbook        = new_resource.cookbook || "backup"
+  template        = new_resource.template || "default"
   model_file_path = "#{node['backup']['models_dir']}/#{backup_name}.sh"
 
   Chef::Log.info "Adding backup model '#{backup_name} at #{model_file_path}"
 
   # Create the template
   template model_file_path do
-    source   "model_#{template_model}.sh.erb"
+    source   "model_#{template}.sh.erb"
     cookbook cookbook
     owner    node['backup']['username']
     group    node['backup']['group']

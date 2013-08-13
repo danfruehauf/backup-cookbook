@@ -19,10 +19,10 @@
 actions :add, :remove
 
 # Name of the backup
-attribute :backup_name,    :kind_of => String, :name_attribute => true
-attribute :cookbook,       :kind_of => String, :default => nil
-attribute :template_model, :kind_of => String, :default => nil
-attribute :params,         :kind_of => Hash,   :default => nil
+attribute :backup_name, :kind_of => String, :name_attribute => true
+attribute :cookbook,    :kind_of => String, :default => nil
+attribute :template,    :kind_of => String, :default => nil
+attribute :params,      :kind_of => Hash,   :default => nil
 
 def initialize(*args)
   super

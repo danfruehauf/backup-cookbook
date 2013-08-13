@@ -19,6 +19,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+# TODO Create backup user
+# TODO Add a requirement for the users cookbook
+
 # Create all directories with right permissions
 [
   node['backup']['base_dir'],
