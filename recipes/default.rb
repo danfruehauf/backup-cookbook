@@ -21,6 +21,10 @@
 
 # TODO Create backup user
 # TODO Add a requirement for the users cookbook
+#user [:backup][:username] do
+#  home  node[:backup][:base_dir]
+#  gid   node[:backup][:group]
+#end
 
 # Create all directories with right permissions
 [
@@ -32,8 +36,9 @@
 ].each do |directory|
   directory directory do
     mode 0775
-    owner node[:backup][:username]
-    group node[:backup][:group]
+# TODO
+#    owner node[:backup][:username]
+#    group node[:backup][:group]
     recursive true
   end
 end
@@ -46,12 +51,12 @@ backup_tar_gz_location = "#{Chef::Config[:file_cache_path]}/backup.tar.gz"
 remote_file backup_tar_gz_location do
   source   node[:backup][:download_url]
   not_if   { ::File.exists?(backup_install_path) }
-  notifies "execute[extract_backup_rock]"
+  notifies :run, "execute[extract_backup_rock]", :immediately
 end
 
 # Extract backup rock
 execute "extract_backup_rock" do
-  command "/bin/tar -C #{node[:backup][:bin_dir]} -xf #{backup_tar_gz_location}"
+  command "/bin/tar --strip-components=1 -C #{node[:backup][:bin_dir]} -xf #{backup_tar_gz_location}"
   creates backup_install_path
   action  :nothing
 end
