@@ -73,7 +73,7 @@ Attributes
   </tr>
   <tr>
     <td><tt>['backup']['backups_to_keep']</tt></td>
-    <td>String</td>
+    <td>Integer</td>
     <td>How many backups to keep</td>
     <td><tt>3</tt></td>
   </tr>

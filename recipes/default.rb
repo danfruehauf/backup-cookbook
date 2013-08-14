@@ -24,34 +24,34 @@
 
 # Create all directories with right permissions
 [
-  node['backup']['base_dir'],
-  node['backup']['backup_dir'],
-  node['backup']['models_dir'],
-  node['backup']['bin_dir'],
-  node['backup']['log_dir']
+  node[:backup][:base_dir],
+  node[:backup][:backup_dir],
+  node[:backup][:models_dir],
+  node[:backup][:bin_dir],
+  node[:backup][:log_dir]
 ].each do |directory|
   directory directory do
     mode 0775
-    owner node['backup']['username']
-    group node['backup']['group']
+    owner node[:backup][:username]
+    group node[:backup][:group]
     recursive true
   end
 end
 
 # Download and deploy backup executable and plugins
-backup_install_path    = "#{node['backup']['bin_dir']}/backup.sh"
+backup_install_path    = "#{node[:backup][:bin_dir]}/backup.sh"
 backup_tar_gz_location = "#{Chef::Config[:file_cache_path]}/backup.tar.gz"
 
 # Download backup rock
 remote_file backup_tar_gz_location do
-  source   node['backup']['download_url']
+  source   node[:backup][:download_url]
   not_if   { ::File.exists?(backup_install_path) }
   notifies "execute[extract_backup_rock]"
 end
 
 # Extract backup rock
 execute "extract_backup_rock" do
-  command "/bin/tar -C #{node['backup']['bin_dir']} -xf #{backup_tar_gz_location}"
+  command "/bin/tar -C #{node[:backup][:bin_dir]} -xf #{backup_tar_gz_location}"
   creates backup_install_path
   action  :nothing
 end

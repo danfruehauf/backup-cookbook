@@ -27,16 +27,16 @@ action :add do
   params          = new_resource.params
   cookbook        = new_resource.cookbook || "backup"
   template        = new_resource.template || "default"
-  model_file_path = "#{node['backup']['models_dir']}/#{backup_name}.sh"
+  model_file_path = "#{node[:backup][:models_dir]}/#{backup_name}.sh"
 
-  Chef::Log.info "Adding backup model '#{backup_name} at #{model_file_path}"
+  Chef::Log.info "Adding backup model '#{backup_name} at '#{model_file_path}'"
 
   # Create the template
   template model_file_path do
     source   "model_#{template}.sh.erb"
     cookbook cookbook
-    owner    node['backup']['username']
-    group    node['backup']['group']
+    owner    node[:backup][:username]
+    group    node[:backup][:group]
     mode     0644
     variables(
       :backup_name => backup_name,
@@ -49,10 +49,10 @@ end
 # Remove
 action :remove do
   # Parameters
-  model_file_path = "#{node['backup']['models_dir']}/#{backup_name}.sh"
+  model_file_path = "#{node[:backup][:models_dir]}/#{backup_name}.sh"
 
   if ::File.exists?(model_file_path)
-    Chef::Log.info "Removing #{new_resource.command_name} from #{node['nagios']['nrpe']['conf_dir']}/nrpe.d/"
+    Chef::Log.info "Removing '#{new_resource.command_name}' from '#{model_file_path}'"
     file model_file_path do
       action :delete
     end

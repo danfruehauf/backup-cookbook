@@ -22,11 +22,11 @@
 
 <%
 backup_name = @backup_name
-backup_dir  = node['backup']['backup_dir']
+backup_dir  = node[:backup][:backup_dir]
 %>
 
 log() {
-    logfile <%= node['backup']['log_dir'] %>/<%= @backup_name %>
+    logfile <%= node[:backup][:log_dir] %>/<%= @backup_name %>
 }
 
 backup() {
@@ -63,7 +63,7 @@ end
 }
 
 store() {
-    cp <%= node['backup']['backup_dir'] %>/<%= @backup_name %>
-    cycle <%= node['backup']['backup_dir'] %>/<%= @backup_name %> <%= node['backup']['backups_to_keep'] %>
+    cp <%= node[:backup][:backup_dir] %>/<%= @backup_name %>
+    cycle <%= node[:backup][:backup_dir] %>/<%= @backup_name %> <%= node[:backup][:backups_to_keep] %>
 }
 

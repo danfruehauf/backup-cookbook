@@ -17,21 +17,21 @@
 #
 
 # Backup rock location
-node['backup']['download_url'] = "https://github.com/danfruehauf/backup/tarball/master/"
+node[:backup][:download_url] = "https://github.com/danfruehauf/backup/tarball/master/"
 
 # Base directory for backup
-node['backup']['base_dir']     = "/home/backup"
+node[:backup][:base_dir]     = "/home/backup"
 
 # Definitions of directories we are going to use, they are relative to
-# node['backup'['base_dir']
-node['backup']['backup_dir']   = "#{node['backup']['base_dir']}/backup"
-node['backup']['models_dir']   = "#{node['backup']['base_dir']}/models"
-node['backup']['bin_dir']      = "#{node['backup']['base_dir']}/bin"
-node['backup']['log_dir']      = "/var/log/backup"
+# node[:backup[:base_dir]
+node[:backup][:backup_dir]   = "#{node[:backup][:base_dir]}/backup"
+node[:backup][:models_dir]   = "#{node[:backup][:base_dir]}/models"
+node[:backup][:bin_dir]      = "#{node[:backup][:base_dir]}/bin"
+node[:backup][:log_dir]      = "/var/log/backup"
 
 # Backup username and group
-node['backup']['username']     = "backup"
-node['backup']['group']        = "backup"
+node[:backup][:username]     = "backup"
+node[:backup][:group]        = "backup"
 
 # How many backups to keep locally by default?
-node['backup']['backups_to_keep'] = 3
+node[:backup][:backups_to_keep] = 3
