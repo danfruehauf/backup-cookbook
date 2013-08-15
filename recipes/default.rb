@@ -19,12 +19,20 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-# TODO Create backup user
-# TODO Add a requirement for the users cookbook
-#user [:backup][:username] do
-#  home  node[:backup][:base_dir]
-#  gid   node[:backup][:group]
-#end
+# Require some pretty basic packages
+%w{ rsync tar gzip openssh-clients }.each do |package|
+  package package
+end
+
+# Create backup group
+group node[:backup][:group] do
+end
+
+# Create backup user
+user node[:backup][:username] do
+  home  node[:backup][:base_dir]
+  gid   node[:backup][:group]
+end
 
 # Create all directories with right permissions
 [
@@ -36,9 +44,8 @@
 ].each do |directory|
   directory directory do
     mode 0775
-# TODO
-#    owner node[:backup][:username]
-#    group node[:backup][:group]
+    owner node[:backup][:username]
+    group node[:backup][:group]
     recursive true
   end
 end
