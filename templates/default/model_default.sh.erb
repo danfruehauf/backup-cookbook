@@ -26,7 +26,7 @@ backup_dir  = node[:backup][:backup_dir]
 %>
 
 log() {
-    logfile <%= node[:backup][:log_dir] %>/<%= @backup_name %>
+    logfile <%= node[:backup][:log_dir] %>/<%= @backup_name %>.log
 }
 
 backup() {
@@ -39,9 +39,7 @@ if @params[:files] and @params[:files].length > 0
 <%
   end
 end
-%>
 
-<%
 if @params[:databases]
   @params[:databases].each do |database|
   # Extract database parameters
