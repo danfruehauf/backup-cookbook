@@ -29,10 +29,6 @@ action :add do
   template        = new_resource.template || "default"
   model_file_path = "#{node[:backup][:models_dir]}/#{backup_name}.sh"
 
-  puts "\n\n\n\n\n\n\n"
-  puts params
-  puts "\n\n\n\n\n\n\n"
-
   Chef::Log.info "Adding backup model '#{backup_name} at '#{model_file_path}'"
 
   # Create the template
