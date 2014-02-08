@@ -35,3 +35,11 @@ default[:backup][:group]        = "backup"
 
 # How many backups to keep locally by default?
 default[:backup][:backups_to_keep] = 3
+
+# Specific packages per distro
+case platform_family
+when 'debian'
+  default[:backup][:packages] = [ 'rsync', 'tar', 'gzip', 'openssh-client' ]
+when 'rhel'
+  default[:backup][:packages] = [ 'rsync', 'tar', 'gzip', 'openssh-clients' ]
+end

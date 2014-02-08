@@ -20,7 +20,7 @@
 #
 
 # Require some pretty basic packages
-%w{ rsync tar gzip openssh-clients }.each do |package|
+node[:backup][:packages].each do |package|
   package package
 end
 

@@ -5,7 +5,8 @@ license          'GPLv2'
 description      'Installs/Configures backup rock'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
+recipe           'backup::default', 'Default simple recipe'
 
-#%w{ users }.each do |cb|
-#  depends cb
-#end
+%w{ debian ubuntu centos fedora redhat scientific }.each do |os|
+  supports os
+end
