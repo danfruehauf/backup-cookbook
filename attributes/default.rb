@@ -17,7 +17,8 @@
 #
 
 # Backup rock location
-default[:backup][:download_url] = "https://github.com/danfruehauf/backup/tarball/master/"
+default[:backup][:git_url]      = "https://github.com/danfruehauf/backup.git"
+default[:backup][:git_branch]   = "master"
 
 # Base directory for backup
 default[:backup][:base_dir]     = "/home/backup"
@@ -39,7 +40,7 @@ default[:backup][:backups_to_keep] = 3
 # Specific packages per distro
 case platform_family
 when 'debian'
-  default[:backup][:packages] = [ 'rsync', 'tar', 'gzip', 'openssh-client' ]
+  default[:backup][:packages] = [ 'rsync', 'tar', 'gzip', 'git', 'openssh-client' ]
 when 'rhel'
-  default[:backup][:packages] = [ 'rsync', 'tar', 'gzip', 'openssh-clients' ]
+  default[:backup][:packages] = [ 'rsync', 'tar', 'gzip', 'git', 'openssh-clients' ]
 end

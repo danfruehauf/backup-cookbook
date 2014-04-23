@@ -50,21 +50,12 @@ end
   end
 end
 
-# Download and deploy backup executable and plugins
-backup_install_path    = "#{node[:backup][:bin_dir]}/backup.sh"
-backup_tar_gz_location = "#{Chef::Config[:file_cache_path]}/backup.tar.gz"
-
-# Download backup rock
-remote_file backup_tar_gz_location do
-  source   node[:backup][:download_url]
-  not_if   { ::File.exists?(backup_install_path) }
-  notifies :run, "execute[extract_backup_rock]", :immediately
-end
-
-# Extract backup rock
-execute "extract_backup_rock" do
-  command "/bin/tar --strip-components=1 -C #{node[:backup][:bin_dir]} -xf #{backup_tar_gz_location}"
-  creates backup_install_path
-  action  :nothing
+# Sync git repository
+git node[:backup][:bin_dir] do
+  repository node[:backup][:git_url]    || "https://github.com/danfruehauf/backup.git"
+  revision   node[:backup][:git_branch] || "master"
+  action     :sync
+  user       node[:backup][:username]
+  group      node[:backup][:group]
 end
 
