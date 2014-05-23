@@ -24,14 +24,14 @@ node[:backup][:packages].each do |package|
   package package
 end
 
-# Create backup group
-group node[:backup][:group] do
-end
+# Create backup user but only if it doesn't exist
+if ! User(node[:backup][:username])
+  group node[:backup][:group]
 
-# Create backup user
-user node[:backup][:username] do
-  home  node[:backup][:base_dir]
-  gid   node[:backup][:group]
+  user node[:backup][:username] do
+    home        node[:backup][:base_dir]
+    gid         node[:backup][:group]
+  end
 end
 
 # Create all directories with right permissions
