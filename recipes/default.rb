@@ -34,10 +34,24 @@ if ! User(node[:backup][:username])
   end
 end
 
+# Honour the fact that sometimes the backup directory may be on a NFS volume or
+# somewhere which we cannot chown it
+directory node[:backup][:backup_dir] do
+  mode 0775
+  recursive true
+end
+
+# Try to change permissions on backup_dir, but don't fail if we cannot
+begin
+  Chef::Log.warn("Directory '#{node[:backup][:backup_dir]}' already exists, trying to change its permissions.")
+  shell_out("chown #{node[:backup][:username]}:#{node[:backup][:group]} #{node[:backup][:backup_dir]}")
+rescue
+  Chef::Log.warn("Could not chown directory '#{node[:backup][:backup_dir]}', but we'll proceed anyway")
+end
+
 # Create all directories with right permissions
 [
   node[:backup][:base_dir],
-  node[:backup][:backup_dir],
   node[:backup][:models_dir],
   node[:backup][:bin_dir],
   node[:backup][:log_dir]
