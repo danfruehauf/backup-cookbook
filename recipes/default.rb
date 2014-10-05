@@ -29,15 +29,15 @@ if ! User(node[:backup][:username])
   group node[:backup][:group]
 
   user node[:backup][:username] do
-    home        node[:backup][:base_dir]
-    gid         node[:backup][:group]
+    home node[:backup][:base_dir]
+    gid  node[:backup][:group]
   end
 end
 
 # Honour the fact that sometimes the backup directory may be on a NFS volume or
 # somewhere which we cannot chown it
 directory node[:backup][:backup_dir] do
-  mode 0775
+  mode      0775
   recursive true
 end
 
@@ -57,9 +57,9 @@ end
   node[:backup][:log_dir]
 ].each do |directory|
   directory directory do
-    mode 0775
-    owner node[:backup][:username]
-    group node[:backup][:group]
+    mode      0775
+    owner     node[:backup][:username]
+    group     node[:backup][:group]
     recursive true
   end
 end
@@ -72,4 +72,3 @@ git node[:backup][:bin_dir] do
   user       node[:backup][:username]
   group      node[:backup][:group]
 end
-
