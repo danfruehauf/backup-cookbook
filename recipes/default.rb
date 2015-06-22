@@ -39,14 +39,20 @@ end
 directory node[:backup][:backup_dir] do
   mode      0775
   recursive true
+  notifies  :run, "ruby_block[chown_backup_dir]", :immediately
 end
 
 # Try to change permissions on backup_dir, but don't fail if we cannot
-begin
-  Chef::Log.warn("Directory '#{node[:backup][:backup_dir]}' already exists, trying to change its permissions.")
-  shell_out("chown #{node[:backup][:username]}:#{node[:backup][:group]} #{node[:backup][:backup_dir]}")
-rescue
-  Chef::Log.warn("Could not chown directory '#{node[:backup][:backup_dir]}', but we'll proceed anyway")
+ruby_block "chown_backup_dir" do
+  block do
+    Chef::Log.warn("Chowning '#{node[:backup][:backup_dir]}'")
+    begin
+      shell_out("chown #{node[:backup][:username]}:#{node[:backup][:group]} #{node[:backup][:backup_dir]}")
+    rescue
+      Chef::Log.warn("Could not chown directory '#{node[:backup][:backup_dir]}', but we'll proceed anyway")
+    end
+  end
+  action :nothing
 end
 
 # Create all directories with right permissions
